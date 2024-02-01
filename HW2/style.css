@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.text1,
+.text2 {
+    margin: 15px;
+}
+
+.contentReview {
+    word-wrap: break-word;
+    width: 250px;
+}
+
+.input1,
+.input2 {
+    margin: 15px;
+}
+
+.reviewItem {
+    border: 5px solid #F16D7F;
+    padding: 10px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 20px;
+}
