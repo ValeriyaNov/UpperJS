@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Отзывы</h1>
+    <div class="text1">
+        <p>Текст</p>
+    </div>
+    <input type="text" id="input" class="input1">
+    <div class="text2">
+        <p>Продукт</p>
+    </div>
+    <input type="text" id="input" class="input2">
+    <button class="btn">Отправить отзыв</button>
+
+
+    <div class="container">
+
+    </div>
+    <script>
+        const input1 = document.querySelector('.input1');
+        const input2 = document.querySelector('.input2');
+        const btn = document.querySelector('.btn');
+        const div = document.querySelector('.container');
+        const renderReview = (review, product) => {
+            return (
+                `<div class="reviewItem">
+            <h1 class="titleReview">${product}</h1>
+            <p class="contentReview">${review}</p>
+        </div>`
+            );
+        }
+
+        function createKey() {
+            let counter = 0;
+            const keys = [];
+
+            for (let index = 0; index < localStorage.length; index++) {
+                let id = Number(localStorage.key(index));
+                keys.push(id);
+
+            }
+
+            while (keys.includes(counter)) {
+                counter++;
+            }
+            return counter;
+        }
+
+        function validation() {
+
+            try {
+
+                if (input1.value.length < 50 || input1.value.length > 500) {
+
+                    throw new Error('Слишком короткий или длинный отзыв!');
+
+                }
+                let review = input1.value;
+                let product = input2.value;
+
+                let store = [];
+                let counter = createKey();
+                store.push(product, review);
+                localStorage.setItem(counter, store);
+
+
+
+                input1.value = '';
+                input2.value = '';
+            } catch (error) {
+                alert(error.message);
+                input1.value = '';
+                input2.value = '';
+
+            }
+
+        }
+        btn.addEventListener('click', validation);
+    </script>
+</body>
+
+</html>

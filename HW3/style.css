@@ -22,6 +22,8 @@
 .blockReview {
     border: 5px solid #F16D7F;
     padding: 10px;
+    width: 360px;
+    word-wrap: break-word;
 }
 
 .container {

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1 class="title">Список продуктов</h1>
+    <ul class="list"></ul>
+    <div class="nameRiv"></div>
+    <div class="container">
+
+    </div>
+    <script>
+        const ulEl = document.querySelector('.list');
+        const container = document.querySelector('.container');
+        const nameRivDiv = document.querySelector('.nameRiv');
+        const nameProduct = [];
+
+        function updateStorage() {
+            const allStorage = new Map();
+            for (let index = 0; index < localStorage.length; index++) {
+                let id = localStorage.key(index);
+                let store = localStorage.getItem(id).split(',');
+                allStorage.set(id, store);
+
+            }
+            return allStorage;
+        };
+        const allStorage = updateStorage();
+
+        for (let index = 0; index < localStorage.length; index++) {
+            let id = localStorage.key(index);
+            let store = localStorage.getItem(id).split(',');
+            nameProduct.push(store[0]);
+        };
+        nameProduct1 = [...new Set(nameProduct)];
+
+        const renderReview = (product) => {
+            return (
+                `<li class="liEl" id='${product}'>
+                        ${product}
+                    </li>`
+            );
+        }
+        nameProduct1.forEach(element => {
+            ulEl.insertAdjacentHTML("beforeend", renderReview(element));
+        });
+        let countRev = 0;
+
+        function apperanceReview(review) {
+            countRev++;
+            return `<div class="blockReview">
+            <p class="blockReview_text" id='${countRev}'>${review}</p>
+            <button class="btn">Удалить отзыв</button>
+        </div>`
+        }
+
+        function adventEl(mapEl, nameUl) {
+            nameRivDiv.insertAdjacentHTML('beforeend', `<p> Отзывы на ${nameUl}</p>`);
+            mapEl.forEach((key, value) => {
+
+                if (key[0] === nameUl) {
+
+                    container.insertAdjacentHTML('beforeend', apperanceReview(key[1]));
+                }
+            });
+
+        }
+
+        function deleteRevie(review, arr) {
+            arr.forEach((key, value) => {
+                if (key[1] === review) {
+                    localStorage.removeItem(value);
+
+                }
+            });
+        };
+
+
+        ulEl.addEventListener('click', function(e) {
+            container.innerHTML = '';
+            nameRivDiv.innerHTML = '';
+            const elTarget = e.target.closest('.liEl');
+            adventEl(updateStorage(), elTarget.id);
+        });
+        container.addEventListener('click', function(e) {
+            const elTarger = e.target.closest('.btn');
+            const parent = elTarger.parentElement;
+            const siblingEl = parent.children[0];
+            deleteRevie(siblingEl.innerHTML, updateStorage());
+            parent.remove();
+        });
+    </script>
+</body>
+
+</html>
